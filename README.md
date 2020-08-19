@@ -1,4 +1,4 @@
-# good_stock_finder
+# Good Stock Finder
 This program is not an individual investment recommendation and cannot be used as a robot advisor.
 
 This program search not bad stocks from S&P 500 Index.
@@ -21,7 +21,8 @@ Then open directory with good_stock_finder.py and run it!
 `python good_stock_finder.py`
 
 The program will show the found stocks:
-`Processing ticker -  WMT
+`
+Processing ticker -  WMT
 Processing ticker -  WY
 Processing ticker -  WMB
 Processing ticker -  XEL
