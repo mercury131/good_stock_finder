@@ -21,6 +21,7 @@ Then open directory with good_stock_finder.py and run it!
 `python good_stock_finder.py`
 
 The program will show the found stocks:
+
 `
 Processing ticker -  WMT
 Processing ticker -  WY
