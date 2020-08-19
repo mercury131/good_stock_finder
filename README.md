@@ -18,7 +18,9 @@ First install python 3 and this components via pip:
 3. pip install finviz
 
 Then open directory with good_stock_finder.py and run it!
-`python good_stock_finder.py`
+
+`
+python good_stock_finder.py`
 
 The program will show the found stocks:
 
