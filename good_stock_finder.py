@@ -12,7 +12,7 @@ import finviz
 setprice = input('Do you want set max price for ticker? (Y\\N): ') 
 
 if setprice == "Y"  :
-    maxprice = float(input("Enter max price value: ") )
+    maxprice = float(input("Enter max $ price value: ") )
     print("Set max price to:", maxprice) 
 elif setprice == "y"  :
     maxprice = float(input("Enter max price value: ") )
@@ -165,12 +165,8 @@ print("Found Good Tickers - ", good_tickers)
 
 print("Found Hot Tickers - ", hot_tickers)
 
-for ticker in good_tickers :
-    with open((os.path.dirname(os.path.realpath(__file__)) + '/good_tickers.csv'), 'a', newline='') as myfile:
-        wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
-        wr.writerow(ticker)
+wtr = csv.writer(open ((os.path.dirname(os.path.realpath(__file__)) + '/good_tickers.csv'), 'w'), delimiter=',', lineterminator='\n')
+for x in good_tickers : wtr.writerow ([x])
 
-for ticker in hot_tickers :
-    with open((os.path.dirname(os.path.realpath(__file__)) + '/hot_tickers.csv'), 'a', newline='') as myfile:
-        wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
-        wr.writerow(ticker)
+wtr = csv.writer(open ((os.path.dirname(os.path.realpath(__file__)) + '/hot_tickers.csv'), 'w'), delimiter=',', lineterminator='\n')
+for x in hot_tickers : wtr.writerow ([x])

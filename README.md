@@ -7,7 +7,7 @@ This program search not bad stocks from S&P 500 Index.
 The program selects stocks according to the following parameters:
 1. The company has sales revenue for the last quarter
 2. The company has no big debts
-3. The ratio is not overheated
+3. The Quick / Current ratio is not overheated
 4. Good ROE/Gross Margin/Profit Margin
 
 # How to use it?
