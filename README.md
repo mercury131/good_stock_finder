@@ -17,8 +17,12 @@ First install python 3 and this components via pip:
 2. pip install pandas
 3. pip install finviz
 
+Or you can use portable version of Good stock finder for Windows [here](https://github.com/mercury131/good_stock_finder/releases/download/1.0/good_stock_finder.exe)
+
 Then open directory with good_stock_finder.py and run it!
-`python good_stock_finder.py`
+
+`
+python good_stock_finder.py`
 
 The program will show the found stocks:
 
