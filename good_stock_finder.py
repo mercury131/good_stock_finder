@@ -166,7 +166,9 @@ print("Found Good Tickers - ", good_tickers)
 print("Found Hot Tickers - ", hot_tickers)
 
 wtr = csv.writer(open ((os.path.dirname(os.path.realpath(__file__)) + '/good_tickers.csv'), 'w'), delimiter=',', lineterminator='\n')
-for x in good_tickers : wtr.writerow ([x])
+wtr.writerow (['Ticker', 'Price', 'Quickratio', 'Current Ratio' , 'Debt/Eq' , 'Sales Q/Q', 'Gross Margin', 'Profit Margin', 'ROE'])
+for x in good_tickers : wtr.writerow ([x  , (float((finviz.get_stock(x)['Price']).replace("%",""))) , (float((finviz.get_stock(x)['Quick Ratio']).replace("%",""))) , (float((finviz.get_stock(x)['Current Ratio']).replace("%",""))) , (float((finviz.get_stock(x)['Debt/Eq']).replace("%",""))) , (float((finviz.get_stock(x)['Sales Q/Q']).replace("%",""))) , (float((finviz.get_stock(x)['Gross Margin']).replace("%",""))) , (float((finviz.get_stock(x)['Profit Margin']).replace("%",""))) , (float((finviz.get_stock(x)['ROE']).replace("%",""))) ])
 
 wtr = csv.writer(open ((os.path.dirname(os.path.realpath(__file__)) + '/hot_tickers.csv'), 'w'), delimiter=',', lineterminator='\n')
-for x in hot_tickers : wtr.writerow ([x])
+wtr.writerow (['Ticker', 'Price', 'Quickratio', 'Current Ratio' , 'Debt/Eq' , 'Sales Q/Q', 'Gross Margin', 'Profit Margin', 'ROE'])
+for x in hot_tickers : wtr.writerow ([x  , (float((finviz.get_stock(x)['Price']).replace("%",""))) , (float((finviz.get_stock(x)['Quick Ratio']).replace("%",""))) , (float((finviz.get_stock(x)['Current Ratio']).replace("%",""))) , (float((finviz.get_stock(x)['Debt/Eq']).replace("%",""))) , (float((finviz.get_stock(x)['Sales Q/Q']).replace("%",""))) , (float((finviz.get_stock(x)['Gross Margin']).replace("%",""))) , (float((finviz.get_stock(x)['Profit Margin']).replace("%",""))) , (float((finviz.get_stock(x)['ROE']).replace("%",""))) ])
