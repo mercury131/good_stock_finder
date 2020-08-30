@@ -166,9 +166,9 @@ print("Found Good Tickers - ", good_tickers)
 print("Found Hot Tickers - ", hot_tickers)
 
 wtr = csv.writer(open ((os.path.dirname(os.path.realpath(__file__)) + '/good_tickers.csv'), 'w'), delimiter=';', lineterminator='\n')
-wtr.writerow (['Ticker', 'Price', 'Quickratio', 'Current Ratio' , 'Debt/Eq' , 'Sales Q/Q', 'Gross Margin', 'Profit Margin', 'ROE'])
+wtr.writerow (['Ticker', 'Price', 'Quickratio', 'Current Ratio' , 'Debt/Eq' , 'Sales Q/Q', 'Gross Margin', 'Profit Margin', 'ROE', 'Sector'])
 for x in good_tickers : wtr.writerow ([x  , (float((finviz.get_stock(x)['Price']).replace("%",""))) , (str((finviz.get_stock(x.replace(".","-"))['Quick Ratio']))) , (str((finviz.get_stock(x.replace(".","-"))['Current Ratio']))) , (str((finviz.get_stock(x.replace(".","-"))['Debt/Eq']))) , (str((finviz.get_stock(x.replace(".","-"))['Sales Q/Q']).replace("%",""))) , (str((finviz.get_stock(x.replace(".","-"))['Gross Margin']).replace("%",""))) , (str((finviz.get_stock(x.replace(".","-"))['Profit Margin']).replace("%",""))) , (str((finviz.get_stock(x.replace(".","-"))['ROE']).replace("%",""))) , (str((finviz.get_stock(x.replace(".","-"))['Sector']).replace("%",""))) ])
 
 wtr = csv.writer(open ((os.path.dirname(os.path.realpath(__file__)) + '/hot_tickers.csv'), 'w'), delimiter=';', lineterminator='\n')
-wtr.writerow (['Ticker', 'Price', 'Quickratio', 'Current Ratio' , 'Debt/Eq' , 'Sales Q/Q', 'Gross Margin', 'Profit Margin', 'ROE'])
+wtr.writerow (['Ticker', 'Price', 'Quickratio', 'Current Ratio' , 'Debt/Eq' , 'Sales Q/Q', 'Gross Margin', 'Profit Margin', 'ROE', 'Sector'])
 for x in hot_tickers : wtr.writerow ([x  , (float((finviz.get_stock(x)['Price']).replace("%",""))) , (str((finviz.get_stock(x.replace(".","-"))['Quick Ratio']))) , (str((finviz.get_stock(x.replace(".","-"))['Current Ratio']))) , (str((finviz.get_stock(x.replace(".","-"))['Debt/Eq']))) , (str((finviz.get_stock(x.replace(".","-"))['Sales Q/Q']).replace("%",""))) , (str((finviz.get_stock(x.replace(".","-"))['Gross Margin']).replace("%",""))) , (str((finviz.get_stock(x.replace(".","-"))['Profit Margin']).replace("%",""))) , (str((finviz.get_stock(x.replace(".","-"))['ROE']).replace("%",""))) , (str((finviz.get_stock(x.replace(".","-"))['Sector']).replace("%",""))) ])
