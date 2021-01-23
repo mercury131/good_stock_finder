@@ -49,6 +49,8 @@ Processing ticker -  ZION
 48   MXIM  93.62         4.7            5.3     0.58       16.2          66.1           30.0  40.7          Technology
 53   MNST  88.20         3.2            3.7     0.00       10.0          58.3           27.0  28.2  Consumer Defensive
 67    UAA  18.51         1.3            2.1     0.00        0.2          47.6           16.6  45.4   Consumer Cyclical
-70     WY  33.21         2.0            2.5     0.70       26.3          23.7            7.0   6.0         Real Estate`
+70     WY  33.21         2.0            2.5     0.70       26.3          23.7            7.0   6.0         Real Estate
+
+`
 
 The program also exports data to a CSV and Excel files in current directory.
