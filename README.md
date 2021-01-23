@@ -16,6 +16,7 @@ First install python 3 and this components via pip:
 1. yum install python36 (Centos) or apt install python3 (Debian\Ubuntu) or get installer for Windows [here](https://www.python.org/downloads/windows/)
 2. pip install pandas
 3. pip install finviz
+4. pip install openpyxl
 
 Or you can use portable version of Good stock finder for Windows [here](https://github.com/mercury131/good_stock_finder/releases/download/1.0/good_stock_finder.exe)
 

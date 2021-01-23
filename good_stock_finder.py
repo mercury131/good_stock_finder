@@ -161,9 +161,9 @@ for ticker in found_tickers :
         hot_tickers.append(ticker)
 
 
-print("Found Good Tickers - ", good_tickers)
+#print("Found Good Tickers - ", good_tickers)
 
-print("Found Hot Tickers - ", hot_tickers)
+#print("Found Hot Tickers - ", hot_tickers)
 
 wtr = csv.writer(open ((os.path.dirname(os.path.realpath(__file__)) + '/good_tickers.csv'), 'w'), delimiter=';', lineterminator='\n')
 wtr.writerow (['Ticker', 'Price', 'Quickratio', 'Current Ratio' , 'Debt/Eq' , 'Sales Q/Q', 'Gross Margin', 'Profit Margin', 'ROE', 'Sector'])
@@ -172,3 +172,41 @@ for x in good_tickers : wtr.writerow ([x  , (float((finviz.get_stock(x)['Price']
 wtr = csv.writer(open ((os.path.dirname(os.path.realpath(__file__)) + '/hot_tickers.csv'), 'w'), delimiter=';', lineterminator='\n')
 wtr.writerow (['Ticker', 'Price', 'Quickratio', 'Current Ratio' , 'Debt/Eq' , 'Sales Q/Q', 'Gross Margin', 'Profit Margin', 'ROE', 'Sector'])
 for x in hot_tickers : wtr.writerow ([x  , (float((finviz.get_stock(x)['Price']).replace("%",""))) , (str((finviz.get_stock(x.replace(".","-"))['Quick Ratio']))) , (str((finviz.get_stock(x.replace(".","-"))['Current Ratio']))) , (str((finviz.get_stock(x.replace(".","-"))['Debt/Eq']))) , (str((finviz.get_stock(x.replace(".","-"))['Sales Q/Q']).replace("%",""))) , (str((finviz.get_stock(x.replace(".","-"))['Gross Margin']).replace("%",""))) , (str((finviz.get_stock(x.replace(".","-"))['Profit Margin']).replace("%",""))) , (str((finviz.get_stock(x.replace(".","-"))['ROE']).replace("%",""))) , (str((finviz.get_stock(x.replace(".","-"))['Sector']).replace("%",""))) ])
+
+if good_tickers:
+    excel_df = pd.read_csv('good_tickers.csv', 
+                        sep=';'
+                        )
+    excel_df[:3]
+
+    excel_df.to_excel('good_tickers.xlsx', index=False)
+
+    excel_df['Quickratio'] = excel_df['Quickratio'].str.replace('-','0').astype(float)
+    excel_df['Current Ratio'] = excel_df['Current Ratio'].str.replace('-','0').astype(float)
+    excel_df['Gross Margin'] = excel_df['Gross Margin'].str.replace('-','0').astype(float)
+    excel_df['Profit Margin'] = excel_df['Profit Margin'].str.replace('-','0').astype(float)
+    excel_df['ROE'] = excel_df['ROE'].str.replace('-','0').astype(float)
+
+    filter=excel_df.loc[(excel_df['Quickratio'].astype(float)>=1) & (excel_df['Current Ratio'].astype(float)>=2) & (excel_df['Debt/Eq'].astype(float)<= 1) & (excel_df['Sales Q/Q'].astype(float)> 0.1) & (excel_df['Gross Margin'].astype(float)> 0.4) & (excel_df['Profit Margin'].astype(float)> 0.4) & (excel_df['ROE'].astype(float)> 0.5) ]
+
+    filter.to_excel('good_tickers_filter.xlsx', index=False)
+    print(filter)
+
+if hot_tickers:
+    excel_df = pd.read_csv('hot_tickers.csv', 
+                        sep=';'
+                        )
+    excel_df[:3]
+
+    excel_df.to_excel('hot_tickers.xlsx', index=False)
+
+    excel_df['Quickratio'] = excel_df['Quickratio'].str.replace('-','0').astype(float)
+    excel_df['Current Ratio'] = excel_df['Current Ratio'].str.replace('-','0').astype(float)
+    excel_df['Gross Margin'] = excel_df['Gross Margin'].str.replace('-','0').astype(float)
+    excel_df['Profit Margin'] = excel_df['Profit Margin'].str.replace('-','0').astype(float)
+    excel_df['ROE'] = excel_df['ROE'].str.replace('-','0').astype(float)
+
+    filter=excel_df.loc[(excel_df['Quickratio'].astype(float)>=1) & (excel_df['Current Ratio'].astype(float)>=2) & (excel_df['Debt/Eq'].astype(float)<= 1) & (excel_df['Sales Q/Q'].astype(float)> 0.1) & (excel_df['Gross Margin'].astype(float)> 0.4) & (excel_df['Profit Margin'].astype(float)> 0.4) & (excel_df['ROE'].astype(float)> 0.5) ]
+
+    filter.to_excel('hot_tickers_filter.xlsx', index=False)
+    print(filter)
