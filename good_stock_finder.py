@@ -6,6 +6,8 @@ import csv
 
 import os
 
+import re
+
 from finviz.screener import Screener
 import finviz
 
@@ -62,6 +64,7 @@ hot_tickers = []
 
 
 for ticker in found_tickers :
+    ticker = ticker.replace(".","-")
     print("Processing ticker - ", ticker)
     try:
         quickratio = float((finviz.get_stock(ticker.replace(".","-"))['Quick Ratio']))
@@ -180,14 +183,19 @@ if good_tickers:
     excel_df[:3]
 
     excel_df.to_excel('good_tickers.xlsx', index=False)
+    
+    print(excel_df)
+    excel_df['Quickratio'] = excel_df['Quickratio'].replace('-','0').astype(float)
+    excel_df['Current Ratio'] = excel_df['Current Ratio'].replace('-','0').astype(float)
+    excel_df['Gross Margin'] = excel_df['Gross Margin'].replace('-','0').astype(float)
+    excel_df['Profit Margin'] = excel_df['Profit Margin'].replace('-','0').astype(float)
+    excel_df['ROE'] = excel_df['ROE'].replace('-','0').astype(float)
+    excel_df['Debt/Eq'] = excel_df['Debt/Eq'].replace('-','0').astype(float)
+    #excel_df['Sales Q/Q'] = excel_df['Sales Q/Q'].replace('-','0').astype(float)
+    #print(excel_df)
 
-    excel_df['Quickratio'] = excel_df['Quickratio'].str.replace('-','0').astype(float)
-    excel_df['Current Ratio'] = excel_df['Current Ratio'].str.replace('-','0').astype(float)
-    excel_df['Gross Margin'] = excel_df['Gross Margin'].str.replace('-','0').astype(float)
-    excel_df['Profit Margin'] = excel_df['Profit Margin'].str.replace('-','0').astype(float)
-    excel_df['ROE'] = excel_df['ROE'].str.replace('-','0').astype(float)
-
-    filter=excel_df.loc[(excel_df['Quickratio'].astype(float)>=1) & (excel_df['Current Ratio'].astype(float)>=2) & (excel_df['Debt/Eq'].astype(float)<= 1) & (excel_df['Sales Q/Q'].astype(float)> 0.1) & (excel_df['Gross Margin'].astype(float)> 0.4) & (excel_df['Profit Margin'].astype(float)> 0.4) & (excel_df['ROE'].astype(float)> 0.5) ]
+    #filter=excel_df.loc[(excel_df['Quickratio'].astype(float)>=1) & (excel_df['Current Ratio'].astype(float)>=2) & (excel_df['Debt/Eq'].astype(float)<= 1) & (excel_df['Sales Q/Q'].astype(float)> 0.1) & (excel_df['Gross Margin'].astype(float)> 0.4) & (excel_df['Profit Margin'].astype(float)> 0.4) & (excel_df['ROE'].astype(float)> 0.5) ]
+    filter=excel_df.loc[(excel_df['Quickratio']>=1) & (excel_df['Current Ratio']>=2) & (excel_df['Debt/Eq']<= 1) & (excel_df['Sales Q/Q']> 0.1) & (excel_df['Gross Margin']> 0.4) & (excel_df['Profit Margin']> 0.4) & (excel_df['ROE']> 0.5) ]
 
     filter.to_excel('good_tickers_filter.xlsx', index=False)
     print(filter)
