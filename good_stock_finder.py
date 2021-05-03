@@ -36,6 +36,7 @@ symbols = df['Symbol'].values.tolist()
 #print(symbols)
 
 found_tickers = []
+rdr = {}
     
 for ticker in symbols :
     print("Get data for ticker - ", ticker)
@@ -48,6 +49,7 @@ for ticker in symbols :
     except ZeroDivisionError:
         ticker_radar = 0
     if (ticker_radar > 4) and (ticker_radar < 30) :
+        rdr[ticker] = ticker_radar
         try:
             if curprice > maxprice :
                 print("Skip, Ticker by price - ", ticker)
@@ -55,7 +57,6 @@ for ticker in symbols :
                 found_tickers.append(ticker)
         except NameError:
             found_tickers.append(ticker)
-
 
 
 good_tickers = []
@@ -160,7 +161,7 @@ for ticker in found_tickers :
         tempvar=0
     elif (finalresult > 24) :
         good_tickers.append(ticker)
-    elif (finalresult > 30) :
+    elif (finalresult > 26) :
         hot_tickers.append(ticker)
 
 
@@ -169,12 +170,12 @@ for ticker in found_tickers :
 #print("Found Hot Tickers - ", hot_tickers)
 
 wtr = csv.writer(open ((os.path.dirname(os.path.realpath(__file__)) + '/good_tickers.csv'), 'w'), delimiter=';', lineterminator='\n')
-wtr.writerow (['Ticker', 'Price', 'Quickratio', 'Current Ratio' , 'Debt/Eq' , 'Sales Q/Q', 'Gross Margin', 'Profit Margin', 'ROE', 'Sector'])
-for x in good_tickers : wtr.writerow ([x  , (float((finviz.get_stock(x)['Price']).replace("%",""))) , (str((finviz.get_stock(x.replace(".","-"))['Quick Ratio']))) , (str((finviz.get_stock(x.replace(".","-"))['Current Ratio']))) , (str((finviz.get_stock(x.replace(".","-"))['Debt/Eq']))) , (str((finviz.get_stock(x.replace(".","-"))['Sales Q/Q']).replace("%",""))) , (str((finviz.get_stock(x.replace(".","-"))['Gross Margin']).replace("%",""))) , (str((finviz.get_stock(x.replace(".","-"))['Profit Margin']).replace("%",""))) , (str((finviz.get_stock(x.replace(".","-"))['ROE']).replace("%",""))) , (str((finviz.get_stock(x.replace(".","-"))['Sector']).replace("%",""))) ])
+wtr.writerow (['Ticker', 'Price', 'Quickratio', 'Current Ratio' , 'Debt/Eq' , 'Sales Q/Q', 'Gross Margin', 'Profit Margin', 'ROE', 'Sector', 'Score'])
+for x in good_tickers : wtr.writerow ([x  , (float((finviz.get_stock(x)['Price']).replace("%",""))) , (str((finviz.get_stock(x.replace(".","-"))['Quick Ratio']))) , (str((finviz.get_stock(x.replace(".","-"))['Current Ratio']))) , (str((finviz.get_stock(x.replace(".","-"))['Debt/Eq']))) , (str((finviz.get_stock(x.replace(".","-"))['Sales Q/Q']).replace("%",""))) , (str((finviz.get_stock(x.replace(".","-"))['Gross Margin']).replace("%",""))) , (str((finviz.get_stock(x.replace(".","-"))['Profit Margin']).replace("%",""))) , (str((finviz.get_stock(x.replace(".","-"))['ROE']).replace("%",""))) , (str((finviz.get_stock(x.replace(".","-"))['Sector']).replace("%",""))), str(rdr[x]) ])
 
 wtr = csv.writer(open ((os.path.dirname(os.path.realpath(__file__)) + '/hot_tickers.csv'), 'w'), delimiter=';', lineterminator='\n')
-wtr.writerow (['Ticker', 'Price', 'Quickratio', 'Current Ratio' , 'Debt/Eq' , 'Sales Q/Q', 'Gross Margin', 'Profit Margin', 'ROE', 'Sector'])
-for x in hot_tickers : wtr.writerow ([x  , (float((finviz.get_stock(x)['Price']).replace("%",""))) , (str((finviz.get_stock(x.replace(".","-"))['Quick Ratio']))) , (str((finviz.get_stock(x.replace(".","-"))['Current Ratio']))) , (str((finviz.get_stock(x.replace(".","-"))['Debt/Eq']))) , (str((finviz.get_stock(x.replace(".","-"))['Sales Q/Q']).replace("%",""))) , (str((finviz.get_stock(x.replace(".","-"))['Gross Margin']).replace("%",""))) , (str((finviz.get_stock(x.replace(".","-"))['Profit Margin']).replace("%",""))) , (str((finviz.get_stock(x.replace(".","-"))['ROE']).replace("%",""))) , (str((finviz.get_stock(x.replace(".","-"))['Sector']).replace("%",""))) ])
+wtr.writerow (['Ticker', 'Price', 'Quickratio', 'Current Ratio' , 'Debt/Eq' , 'Sales Q/Q', 'Gross Margin', 'Profit Margin', 'ROE', 'Sector', 'Score'])
+for x in hot_tickers : wtr.writerow ([x  , (float((finviz.get_stock(x)['Price']).replace("%",""))) , (str((finviz.get_stock(x.replace(".","-"))['Quick Ratio']))) , (str((finviz.get_stock(x.replace(".","-"))['Current Ratio']))) , (str((finviz.get_stock(x.replace(".","-"))['Debt/Eq']))) , (str((finviz.get_stock(x.replace(".","-"))['Sales Q/Q']).replace("%",""))) , (str((finviz.get_stock(x.replace(".","-"))['Gross Margin']).replace("%",""))) , (str((finviz.get_stock(x.replace(".","-"))['Profit Margin']).replace("%",""))) , (str((finviz.get_stock(x.replace(".","-"))['ROE']).replace("%",""))) , (str((finviz.get_stock(x.replace(".","-"))['Sector']).replace("%",""))), str(rdr[x]) ])
 
 if good_tickers:
     excel_df = pd.read_csv('good_tickers.csv', 
