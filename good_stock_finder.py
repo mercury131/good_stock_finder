@@ -36,7 +36,11 @@ symbols = df['Symbol'].values.tolist()
 #print(symbols)
 
 found_tickers = []
-rdr = {}
+
+good_tickers = []
+hot_tickers = []
+tickers_radar = {}
+tickers_rating = {}
     
 for ticker in symbols :
     print("Get data for ticker - ", ticker)
@@ -49,18 +53,18 @@ for ticker in symbols :
     except ZeroDivisionError:
         ticker_radar = 0
     if (ticker_radar > 4) and (ticker_radar < 30) :
-        rdr[ticker] = ticker_radar
         try:
             if curprice > maxprice :
                 print("Skip, Ticker by price - ", ticker)
             else:
                 found_tickers.append(ticker)
+                tickers_radar.update({ticker: ticker_radar})
         except NameError:
             found_tickers.append(ticker)
+            tickers_radar.update({ticker: ticker_radar})
 
 
-good_tickers = []
-hot_tickers = []
+
 
 
 
@@ -161,8 +165,10 @@ for ticker in found_tickers :
         tempvar=0
     elif (finalresult > 24) :
         good_tickers.append(ticker)
-    elif (finalresult > 26) :
+        tickers_rating.update({ticker: finalresult})
+    elif (finalresult > 30) :
         hot_tickers.append(ticker)
+        tickers_rating.update({ticker: finalresult})
 
 
 #print("Found Good Tickers - ", good_tickers)
@@ -170,12 +176,12 @@ for ticker in found_tickers :
 #print("Found Hot Tickers - ", hot_tickers)
 
 wtr = csv.writer(open ((os.path.dirname(os.path.realpath(__file__)) + '/good_tickers.csv'), 'w'), delimiter=';', lineterminator='\n')
-wtr.writerow (['Ticker', 'Price', 'Quickratio', 'Current Ratio' , 'Debt/Eq' , 'Sales Q/Q', 'Gross Margin', 'Profit Margin', 'ROE', 'Sector', 'Score'])
-for x in good_tickers : wtr.writerow ([x  , (float((finviz.get_stock(x)['Price']).replace("%",""))) , (str((finviz.get_stock(x.replace(".","-"))['Quick Ratio']))) , (str((finviz.get_stock(x.replace(".","-"))['Current Ratio']))) , (str((finviz.get_stock(x.replace(".","-"))['Debt/Eq']))) , (str((finviz.get_stock(x.replace(".","-"))['Sales Q/Q']).replace("%",""))) , (str((finviz.get_stock(x.replace(".","-"))['Gross Margin']).replace("%",""))) , (str((finviz.get_stock(x.replace(".","-"))['Profit Margin']).replace("%",""))) , (str((finviz.get_stock(x.replace(".","-"))['ROE']).replace("%",""))) , (str((finviz.get_stock(x.replace(".","-"))['Sector']).replace("%",""))), str(rdr[x]) ])
+wtr.writerow (['Ticker', 'Price', 'Quickratio', 'Current Ratio' , 'Debt/Eq' , 'Sales Q/Q', 'Gross Margin', 'Profit Margin', 'ROE', 'Sector', 'Radar', 'Rating'])
+for x in good_tickers : wtr.writerow ([x  , (float((finviz.get_stock(x)['Price']).replace("%",""))) , (str((finviz.get_stock(x.replace(".","-"))['Quick Ratio']))) , (str((finviz.get_stock(x.replace(".","-"))['Current Ratio']))) , (str((finviz.get_stock(x.replace(".","-"))['Debt/Eq']))) , (str((finviz.get_stock(x.replace(".","-"))['Sales Q/Q']).replace("%",""))) , (str((finviz.get_stock(x.replace(".","-"))['Gross Margin']).replace("%",""))) , (str((finviz.get_stock(x.replace(".","-"))['Profit Margin']).replace("%",""))) , (str((finviz.get_stock(x.replace(".","-"))['ROE']).replace("%",""))) , (str((finviz.get_stock(x.replace(".","-"))['Sector']).replace("%",""))) ,(str(tickers_radar[x])),(str(tickers_rating[x])) ])
 
 wtr = csv.writer(open ((os.path.dirname(os.path.realpath(__file__)) + '/hot_tickers.csv'), 'w'), delimiter=';', lineterminator='\n')
-wtr.writerow (['Ticker', 'Price', 'Quickratio', 'Current Ratio' , 'Debt/Eq' , 'Sales Q/Q', 'Gross Margin', 'Profit Margin', 'ROE', 'Sector', 'Score'])
-for x in hot_tickers : wtr.writerow ([x  , (float((finviz.get_stock(x)['Price']).replace("%",""))) , (str((finviz.get_stock(x.replace(".","-"))['Quick Ratio']))) , (str((finviz.get_stock(x.replace(".","-"))['Current Ratio']))) , (str((finviz.get_stock(x.replace(".","-"))['Debt/Eq']))) , (str((finviz.get_stock(x.replace(".","-"))['Sales Q/Q']).replace("%",""))) , (str((finviz.get_stock(x.replace(".","-"))['Gross Margin']).replace("%",""))) , (str((finviz.get_stock(x.replace(".","-"))['Profit Margin']).replace("%",""))) , (str((finviz.get_stock(x.replace(".","-"))['ROE']).replace("%",""))) , (str((finviz.get_stock(x.replace(".","-"))['Sector']).replace("%",""))), str(rdr[x]) ])
+wtr.writerow (['Ticker', 'Price', 'Quickratio', 'Current Ratio' , 'Debt/Eq' , 'Sales Q/Q', 'Gross Margin', 'Profit Margin', 'ROE', 'Sector', 'Radar', 'Rating'])
+for x in hot_tickers : wtr.writerow ([x  , (float((finviz.get_stock(x)['Price']).replace("%",""))) , (str((finviz.get_stock(x.replace(".","-"))['Quick Ratio']))) , (str((finviz.get_stock(x.replace(".","-"))['Current Ratio']))) , (str((finviz.get_stock(x.replace(".","-"))['Debt/Eq']))) , (str((finviz.get_stock(x.replace(".","-"))['Sales Q/Q']).replace("%",""))) , (str((finviz.get_stock(x.replace(".","-"))['Gross Margin']).replace("%",""))) , (str((finviz.get_stock(x.replace(".","-"))['Profit Margin']).replace("%",""))) , (str((finviz.get_stock(x.replace(".","-"))['ROE']).replace("%",""))) , (str((finviz.get_stock(x.replace(".","-"))['Sector']).replace("%",""))) ,(str(tickers_radar[x])),(str(tickers_rating[x])) ])
 
 if good_tickers:
     excel_df = pd.read_csv('good_tickers.csv', 
@@ -200,7 +206,6 @@ if good_tickers:
 
     filter.to_excel('good_tickers_filter.xlsx', index=False)
     print(filter)
-
 if hot_tickers:
     excel_df = pd.read_csv('hot_tickers.csv', 
                         sep=';'
